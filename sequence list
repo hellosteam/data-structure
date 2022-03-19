@@ -51,7 +51,6 @@ bool List_add(squence_list* L, int add_num,int e)//向顺序表L中添加add_num
 }
 bool List_delete(squence_list* L, int i,int* e)//把顺序表L中的第i个元素删除，并把删除的元素存入变量e中
 {
-	int j;
 	if (i > 0&&i <= L->length)
 	{
 		*e = L->arr[i - 1];

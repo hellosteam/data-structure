@@ -71,7 +71,7 @@ int Get_elem(squence_list* L, int i)//按位查找第i个元素的值，注意�
 {	
 	return L->arr[i - 1];
 }
-int Locate——elem(squence_list* L, int e)//按值查找元素e在顺序表中的索引（从1开始），如果返回0，表示所查元素不在列表中
+int Locate_elem(squence_list* L, int e)//按值查找元素e在顺序表中的索引（从1开始），如果返回0，表示所查元素不在列表中
 {
 	for (int i = 0; i < L->length; i++)
 	{

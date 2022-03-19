@@ -1,0 +1,113 @@
+#include<stdio.h>
+#include<stdbool.h>
+#define INITSIZE 20
+typedef struct squence_list
+{
+	int max_size;//顺序表的容量。
+	int* arr;
+	int length;//顺序表已利用的长度。
+}squence_list;//创建一个顺序表结构体，这种顺序表的大小容量是不可调的。
+void Init_list(squence_list* L,int max_size)
+{
+	L->arr = (int*)malloc(max_size * sizeof(int));
+	L->max_size = max_size;
+	L->length = 0;
+}
+int* Increase_size(squence_list* L, int len)//将顺序表的最大容量扩大len。
+{
+	int* ptr = realloc(L->arr, L->max_size + len);
+	if (ptr != NULL)
+	{
+		L->arr = ptr;
+	}
+	L->max_size = L->max_size + len;
+}
+bool List_insert(squence_list* L, int i, int e)//把e插入到顺序表L中的第i个元素
+{
+	if (i <= L->length + 1 && i > 0 && L->length != L->max_size)
+	{
+		int j;
+		for (j = L->length; j > i - 1; j--)
+		{
+			L->arr[j] = L->arr[j - 1];
+		}
+		L->arr[j] = e;
+		L->length++;
+	}
+	else
+	{
+		return false;
+	}
+	return true;
+}
+bool List_add(squence_list* L, int add_num, int e)//向顺序表L中添加add_num个元素e
+{
+	if (add_num < L->max_size && add_num>0)
+	{
+		for (int i = 0; i < add_num; i++)
+		{
+			L->arr[i] = e;
+			L->length++;
+		}
+	}
+	else
+	{
+		return false;
+	}
+	return true;
+}
+bool List_delete(squence_list* L, int i, int* e)//把顺序表L中的第i个元素删除，并把删除的元素存入变量e中
+{
+	if (i > 0 && i <= L->length)
+	{
+		*e = L->arr[i - 1];
+		int j;
+		for (j = i; j <= L->length; j++)
+		{
+			L->arr[j - 1] = L->arr[j];
+		}
+		L->length--;
+	}
+	else
+	{
+		return false;
+	}
+	return true;
+}
+int Get_elem(squence_list* L, int i)//按位查找第i个元素的值，注意这里还需要判断一下i的值是否合法
+{
+	return L->arr[i - 1];
+}
+int Locate_elem(squence_list* L, int e)//按值查找元素e在顺序表中的索引（从1开始），如果返回0，表示所查元素不在列表中
+{
+	for (int i = 0; i < L->length; i++)
+	{
+		if (L->arr[i] == e)//如果顺序表元素是个结构体，在c中是不能用==来判断两结构体是否相等的，在c++中，可以尝试重载运算符==
+		{
+			return i + 1;
+		}
+	}
+	return 0;
+}
+void print_arr(squence_list L)//打印顺序表
+{
+	int i;
+	for (i = 0; i < L.max_size; i++)
+	{
+		printf("%d ", L.arr[i]);
+	}
+}
+int main()
+{
+	int a;//接受删除的元素
+	squence_list L;//创建一个结构体指针变量L
+	Init_list(&L, 10);
+	List_add(&L, 1, 6);
+	List_insert(&L, 2, 8);
+	List_delete(&L, 1, &a);
+	Increase_size(&L, 10);
+	print_arr(L);
+	printf("\n%d", a);
+	free(L.arr);
+	L.arr= NULL;
+}
